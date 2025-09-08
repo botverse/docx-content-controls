@@ -1,4 +1,5 @@
-import { XmlComponent, IContext, IXmlableObject } from "@file/xml-components";
+import { IContext, IXmlableObject, XmlComponent } from "@file/xml-components";
+
 import { ICheckboxContentControlOptions } from "./properties";
 import { contentControlIdGen } from "./shared-id-generator";
 import { validateDataBinding } from "./validation-utils";
@@ -57,12 +58,12 @@ export class CheckboxContentControl extends XmlComponent {
     private readonly title?: string;
     private readonly id: number;
     private readonly checked: boolean;
-    private readonly checkedSymbol: { font: string; character: string };
-    private readonly uncheckedSymbol: { font: string; character: string };
+    private readonly checkedSymbol: { readonly font: string; readonly character: string };
+    private readonly uncheckedSymbol: { readonly font: string; readonly character: string };
     private readonly appearance?: string;
     private readonly color?: string;
-    private readonly dataBinding?: { xpath: string; storeItemId: string };
-    private readonly lock?: { contentLock?: boolean; sdtLocked?: boolean };
+    private readonly dataBinding?: { readonly xpath: string; readonly storeItemId: string };
+    private readonly lock?: { readonly contentLock?: boolean; readonly sdtLocked?: boolean };
     private readonly placeholder?: string;
 
     // Default symbols matching Microsoft's standards

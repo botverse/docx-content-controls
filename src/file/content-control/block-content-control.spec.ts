@@ -4,7 +4,7 @@ import { Formatter } from "@export/formatter";
 import * as convenienceFunctions from "@util/convenience-functions";
 
 import { Paragraph } from "../paragraph";
-import { Table, TableRow, TableCell } from "../table";
+import { Table, TableCell, TableRow } from "../table";
 import { BlockContentControl } from "./block-content-control";
 
 describe("BlockContentControl", () => {

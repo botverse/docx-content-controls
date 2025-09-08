@@ -2,7 +2,8 @@
  * Tests for Content Control validation utilities
  */
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
 import { GuidValidator, validateDataBinding } from "./validation-utils";
 
 describe("GuidValidator", () => {

@@ -1,4 +1,5 @@
-import { XmlComponent, IContext, IXmlableObject } from "@file/xml-components";
+import { IContext, IXmlableObject, XmlComponent } from "@file/xml-components";
+
 import { IDatePickerContentControlOptions } from "./properties";
 import { contentControlIdGen } from "./shared-id-generator";
 import { validateDataBinding } from "./validation-utils";
@@ -65,8 +66,8 @@ export class DatePickerContentControl extends XmlComponent {
     private readonly storeMappedDataAs?: string;
     private readonly appearance?: string;
     private readonly color?: string;
-    private readonly dataBinding?: { xpath: string; storeItemId: string };
-    private readonly lock?: { contentLock?: boolean; sdtLocked?: boolean };
+    private readonly dataBinding?: { readonly xpath: string; readonly storeItemId: string };
+    private readonly lock?: { readonly contentLock?: boolean; readonly sdtLocked?: boolean };
     private readonly placeholder?: string;
 
     /**

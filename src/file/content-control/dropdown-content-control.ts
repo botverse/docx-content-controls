@@ -1,4 +1,5 @@
-import { XmlComponent, IContext, IXmlableObject } from "@file/xml-components";
+import { IContext, IXmlableObject, XmlComponent } from "@file/xml-components";
+
 import { IDropdownContentControlOptions } from "./properties";
 import { contentControlIdGen } from "./shared-id-generator";
 import { validateDataBinding } from "./validation-utils";
@@ -62,20 +63,20 @@ export class DropdownContentControl extends XmlComponent {
     private readonly title?: string;
     private readonly id: number;
     private readonly type: "dropDownList" | "comboBox";
-    private readonly listItems: readonly { displayText: string; value: string }[];
+    private readonly listItems: readonly { readonly displayText: string; readonly value: string }[];
     private readonly appearance?: string;
     private readonly color?: string;
-    private readonly dataBinding?: { xpath: string; storeItemId: string };
-    private readonly lock?: { contentLock?: boolean; sdtLocked?: boolean };
+    private readonly dataBinding?: { readonly xpath: string; readonly storeItemId: string };
+    private readonly lock?: { readonly contentLock?: boolean; readonly sdtLocked?: boolean };
     private readonly placeholder?: string;
     private readonly multiLine?: boolean;
     private readonly maxLength?: number;
     private readonly defaultStyle?: {
-        bold?: boolean;
-        italic?: boolean;
-        color?: string;
-        fontSize?: number;
-        fontFamily?: string;
+        readonly bold?: boolean;
+        readonly italic?: boolean;
+        readonly color?: string;
+        readonly fontSize?: number;
+        readonly fontFamily?: string;
     };
 
     /**
@@ -181,6 +182,7 @@ export class DropdownContentControl extends XmlComponent {
         const values = options.listItems.map((item) => item.value);
         const duplicateValues = values.filter((value, index) => values.indexOf(value) !== index);
         if (duplicateValues.length > 0) {
+            // eslint-disable-next-line no-console
             console.warn(
                 `DropdownContentControl: Found duplicate values in listItems: ${duplicateValues.join(", ")}. ` +
                     "Duplicate values may cause unexpected behavior when processing selections.",

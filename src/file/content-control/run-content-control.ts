@@ -1,4 +1,5 @@
-import { XmlComponent, IContext, IXmlableObject } from "@file/xml-components";
+import { IContext, IXmlableObject, XmlComponent } from "@file/xml-components";
+
 import { IRunContentControlOptions } from "./properties";
 import { contentControlIdGen } from "./shared-id-generator";
 import { validateDataBinding } from "./validation-utils";
@@ -49,17 +50,17 @@ export class RunContentControl extends XmlComponent {
     private readonly id: number;
     private readonly appearance?: string;
     private readonly color?: string;
-    private readonly dataBinding?: { xpath: string; storeItemId: string };
-    private readonly lock?: { contentLock?: boolean; sdtLocked?: boolean };
+    private readonly dataBinding?: { readonly xpath: string; readonly storeItemId: string };
+    private readonly lock?: { readonly contentLock?: boolean; readonly sdtLocked?: boolean };
     private readonly placeholder?: string;
     private readonly multiLine?: boolean;
     private readonly maxLength?: number;
     private readonly defaultStyle?: {
-        bold?: boolean;
-        italic?: boolean;
-        color?: string;
-        fontSize?: number;
-        fontFamily?: string;
+        readonly bold?: boolean;
+        readonly italic?: boolean;
+        readonly color?: string;
+        readonly fontSize?: number;
+        readonly fontFamily?: string;
     };
     private readonly richText?: boolean;
 
