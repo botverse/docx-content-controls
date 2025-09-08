@@ -64,13 +64,14 @@ describe("DropdownContentControl", () => {
         it("should throw error for missing type", () => {
             // This test validates that type is required in TypeScript interface
             // We'll test with a valid type but verify error handling elsewhere
-            expect(() =>
-                new DropdownContentControl({
-                    tag: "ValidTag",
-                    type: "dropDownList", // Required property
-                    listItems: [{ displayText: "Test", value: "test" }],
-                    children: [], // Empty children should trigger error
-                }),
+            expect(
+                () =>
+                    new DropdownContentControl({
+                        tag: "ValidTag",
+                        type: "dropDownList", // Required property
+                        listItems: [{ displayText: "Test", value: "test" }],
+                        children: [], // Empty children should trigger error
+                    }),
             ).toThrow("DropdownContentControl: 'children' array is required");
         });
 
