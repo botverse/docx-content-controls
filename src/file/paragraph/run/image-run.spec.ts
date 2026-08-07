@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
 import { Formatter } from "@export/formatter";
-import { IViewWrapper } from "@file/document-wrapper";
-import { File } from "@file/file";
+import type { IViewWrapper } from "@file/document-wrapper";
+import type { File } from "@file/file";
 
 import { ImageRun } from "./image-run";
 
@@ -1176,6 +1176,90 @@ describe("ImageRun", () => {
                 `${expectedHash}.png`,
                 expect.objectContaining({ fileName: `${expectedHash}.png` }),
             );
+        });
+    });
+
+    it("should wrap the run with w:ins when insertion revision is set", () => {
+        const base = new ImageRun({
+            type: "png",
+            data: Buffer.from(""),
+            transformation: { width: 100, height: 100 },
+        });
+        const withInsertion = new ImageRun({
+            type: "png",
+            data: Buffer.from(""),
+            transformation: { width: 100, height: 100 },
+            insertion: { id: 7, author: "Firstname Lastname", date: "2026-01-01T12:00:00Z" },
+        });
+
+        const context = {
+            file: {
+                Media: {
+                    addImage: vi.fn(),
+                },
+            } as unknown as File,
+            viewWrapper: {} as unknown as IViewWrapper,
+            stack: [],
+        };
+
+        const baseTree = new Formatter().format(base, context);
+        const tree = new Formatter().format(withInsertion, context);
+
+        expect(tree).to.deep.equal({
+            "w:ins": [
+                {
+                    _attr: {
+                        "w:author": "Firstname Lastname",
+                        "w:date": "2026-01-01T12:00:00Z",
+                        "w:id": 7,
+                    },
+                },
+                {
+                    "w:r": baseTree["w:r"],
+                },
+            ],
+        });
+    });
+
+    it("should wrap the run with w:del when deletion revision is set", () => {
+        const base = new ImageRun({
+            type: "png",
+            data: Buffer.from(""),
+            transformation: { width: 100, height: 100 },
+        });
+        const withDeletion = new ImageRun({
+            type: "png",
+            data: Buffer.from(""),
+            transformation: { width: 100, height: 100 },
+            deletion: { id: 8, author: "Firstname Lastname", date: "2026-01-01T12:00:00Z" },
+        });
+
+        const context = {
+            file: {
+                Media: {
+                    addImage: vi.fn(),
+                },
+            } as unknown as File,
+            viewWrapper: {} as unknown as IViewWrapper,
+            stack: [],
+        };
+
+        const baseTree = new Formatter().format(base, context);
+        const tree = new Formatter().format(withDeletion, context);
+
+        expect(tree).to.deep.equal({
+            "w:del": [
+                {
+                    _attr: {
+                        "w:author": "Firstname Lastname",
+                        "w:date": "2026-01-01T12:00:00Z",
+                        "w:id": 8,
+                    },
+                },
+                {
+                    "w:r": baseTree["w:r"],
+                },
+            ],
         });
     });
 });

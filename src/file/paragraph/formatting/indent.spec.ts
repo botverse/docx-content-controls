@@ -2,17 +2,18 @@ import { describe, expect, it } from "vitest";
 
 import { Formatter } from "@export/formatter";
 
-import { Indent } from "./indent";
+import { createIndent } from "./indent";
 
 describe("Indent", () => {
     it("should create", () => {
-        const indent = new Indent({
+        const indent = createIndent({
             start: 10,
             end: 10,
             left: 10,
             right: 10,
             hanging: 10,
             firstLine: 10,
+            firstLineChars: 200,
         });
         const tree = new Formatter().format(indent);
         expect(tree).to.deep.equal({
@@ -21,6 +22,7 @@ describe("Indent", () => {
                     "w:start": 10,
                     "w:end": 10,
                     "w:firstLine": 10,
+                    "w:firstLineChars": 200,
                     "w:hanging": 10,
                     "w:left": 10,
                     "w:right": 10,
@@ -30,7 +32,7 @@ describe("Indent", () => {
     });
 
     it("should create with no indent values", () => {
-        const indent = new Indent({});
+        const indent = createIndent({});
 
         const tree = new Formatter().format(indent);
         expect(tree).to.deep.equal({

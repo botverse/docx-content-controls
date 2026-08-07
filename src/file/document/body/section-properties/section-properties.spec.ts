@@ -276,5 +276,53 @@ describe("SectionProperties", () => {
                 "w:textDirection": { _attr: { "w:val": "tbRl" } },
             });
         });
+
+        it.each([1, 5, 9])("should create section properties with page size code %i", (code) => {
+            const properties = new SectionProperties({
+                page: {
+                    size: {
+                        code,
+                    },
+                },
+            });
+            const tree = new Formatter().format(properties);
+
+            expect(Object.keys(tree)).to.deep.equal(["w:sectPr"]);
+            const pageSize = tree["w:sectPr"].find((item: any) => item["w:pgSz"] !== undefined);
+            expect(pageSize).to.deep.equal({
+                "w:pgSz": {
+                    _attr: {
+                        ...PAGE_SIZE_DEFAULTS,
+                        "w:code": code,
+                    },
+                },
+            });
+        });
+
+        it("should create section properties with revision", () => {
+            const properties = new SectionProperties({
+                page: {
+                    textDirection: PageTextDirectionType.TOP_TO_BOTTOM_RIGHT_TO_LEFT,
+                },
+                revision: {
+                    id: 1,
+                    author: "Firstname Lastname",
+                    date: "123",
+                    page: {
+                        textDirection: PageTextDirectionType.LEFT_TO_RIGHT_TOP_TO_BOTTOM,
+                    },
+                },
+            });
+            const tree = new Formatter().format(properties);
+            expect(Object.keys(tree)).to.deep.equal(["w:sectPr"]);
+            const prChange = tree["w:sectPr"].find((item: any) => item["w:sectPrChange"] !== undefined);
+            expect(prChange).toBeDefined();
+            const sectPrInChange = prChange["w:sectPrChange"].find((item: any) => item["w:sectPr"] !== undefined);
+            expect(sectPrInChange).toBeDefined();
+            const textDirection = sectPrInChange["w:sectPr"].find((item: any) => item["w:textDirection"] !== undefined);
+            expect(textDirection).to.deep.equal({
+                "w:textDirection": { _attr: { "w:val": "lrTb" } },
+            });
+        });
     });
 });
